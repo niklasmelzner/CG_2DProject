@@ -1,0 +1,12 @@
+#version 330 core
+
+//getting the current color
+in vec3 color;
+
+out vec3 colorOut;
+
+void main()
+{
+	//passing the color through the shader
+	colorOut=color;
+}
