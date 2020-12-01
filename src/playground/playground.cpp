@@ -141,9 +141,9 @@ void updateGameMechanics() {
 		}
 
 		//related action (run=true) checks if the field has a brick and whether it can move this brick
-		if (run && brickDroppingField.get()->hasBrick() && brickDroppingField.get()->canMoveBrick(BrickDroppingField::TYPE_MOVE_LEFT)) {
+		if (run && brickDroppingField->hasBrick() && brickDroppingField->canMoveBrick(BrickDroppingField::TYPE_MOVE_LEFT)) {
 			//if the action is active and the brick can be moved, this movement-function is called.
-			brickDroppingField.get()->moveBrick(BrickDroppingField::TYPE_MOVE_LEFT);
+			brickDroppingField->moveBrick(BrickDroppingField::TYPE_MOVE_LEFT);
 		}
 	}
 	else pressedLeft = false;
@@ -161,8 +161,8 @@ void updateGameMechanics() {
 			run = true;
 		}
 
-		if (run && brickDroppingField.get()->hasBrick() && brickDroppingField.get()->canMoveBrick(BrickDroppingField::TYPE_MOVE_RIGHT)) {
-			brickDroppingField.get()->moveBrick(BrickDroppingField::TYPE_MOVE_RIGHT);
+		if (run && brickDroppingField->hasBrick() && brickDroppingField->canMoveBrick(BrickDroppingField::TYPE_MOVE_RIGHT)) {
+			brickDroppingField->moveBrick(BrickDroppingField::TYPE_MOVE_RIGHT);
 		}
 	}
 	else pressedRight = false;
@@ -173,9 +173,9 @@ void updateGameMechanics() {
 			//flag to store side effects that will be important for brick rotation (sometimes the brick may be translated to)
 			int flag;
 			//check if the field has a brick and this brick can be rotated
-			if (brickDroppingField.get()->hasBrick() && (flag = brickDroppingField.get()->canRotateBrick(BrickDroppingField::TYPE_ROTATE_RIGHT))) {
+			if (brickDroppingField->hasBrick() && (flag = brickDroppingField->canRotateBrick(BrickDroppingField::TYPE_ROTATE_RIGHT))) {
 				//rotate the brick
-				brickDroppingField.get()->rotateBrick(BrickDroppingField::TYPE_ROTATE_RIGHT, flag);
+				brickDroppingField->rotateBrick(BrickDroppingField::TYPE_ROTATE_RIGHT, flag);
 			}
 		}
 	}
@@ -190,9 +190,9 @@ void updateGameMechanics() {
 	//check if enough time is elapsed
 	if (elapsed >= dTDrop || pressedFaster && elapsed >= dTDrop * (1 - factorPressedFaster)) {
 		
-		if (brickDroppingField.get()->hasBrick()) {//check if the field has a brick
-			if (brickDroppingField.get()->canMoveBrick(BrickDroppingField::TYPE_MOVE_DOWN)) { //check if this brick can be moved down
-				brickDroppingField.get()->moveBrick(BrickDroppingField::TYPE_MOVE_DOWN); // move brick down
+		if (brickDroppingField->hasBrick()) {//check if the field has a brick
+			if (brickDroppingField->canMoveBrick(BrickDroppingField::TYPE_MOVE_DOWN)) { //check if this brick can be moved down
+				brickDroppingField->moveBrick(BrickDroppingField::TYPE_MOVE_DOWN); // move brick down
 			}
 			else {
 				//brick can't be moved -> needs to be integrated in the field
@@ -203,7 +203,7 @@ void updateGameMechanics() {
 				else dTDrop = dTDropMax;
 
 
-				if (brickDroppingField.get()->placeBrick()) {//place the brick on the field (and check if the field is full)
+				if (brickDroppingField->placeBrick()) {//place the brick on the field (and check if the field is full)
 					//counting full rows in field
 					int collapseCount = 0;
 
@@ -358,8 +358,8 @@ void updateAnimationCollapse() {
 						int mode = collapseConfiguration.get()[y];
 						//dropping the values in the field-array
 						if (mode > 0) {
-							brickDroppingField.get()->set(x, y - mode, brickDroppingField.get()->get(x, y));
-							brickDroppingField.get()->set(x, y, -1);
+							brickDroppingField->set(x, y - mode, brickDroppingField->get(x, y));
+							brickDroppingField->set(x, y, -1);
 						}
 						//applying the matrix
 						applyTransformToSingleField(x, y, &transform);
@@ -395,7 +395,7 @@ void updateAnimationCollapse() {
 		else if (mode < 0) {//row needs to collapse (in first phase) and to restore (in second phase)
 			if (animationPhase == 1) {
 				//clearing the row (this animation state does only occur once in the whole animation and does only exist to clear rows and apply the score)
-				brickDroppingField.get()->clearRow(y);
+				brickDroppingField->clearRow(y);
 			}
 
 			//transforming mode to a usable form (see playground.h -> collapseConfiguration for further detail)
@@ -444,7 +444,7 @@ void updateAnimationEnd() {
 			animationPhase = 1;
 		}
 		else if (animationPhase == 1) {//clearing the field in the next loop cycle
-			brickDroppingField.get()->clear();
+			brickDroppingField->clear();
 			animationPhase = 2;
 		}
 	}
@@ -488,7 +488,7 @@ int generateRandomBrickIndex() {
 }
 
 void startBrick() {
-	brickDroppingField.get()->startBrick(nextBrick);
+	brickDroppingField->startBrick(nextBrick);
 	setNextBrick(generateRandomBrickIndex());
 }
 
@@ -550,7 +550,7 @@ int main(void)
 	collapseConfiguration = { new int[fieldY] {}, std::default_delete<int[]>() };
 
 	//adding a listener to the field to apply changes to the vertex/color-buffers
-	brickDroppingField.get()->setOnChanged([](int x, int y, int v) {
+	brickDroppingField->setOnChanged([](int x, int y, int v) {
 		updateField(x, y);
 		});
 

@@ -139,14 +139,14 @@ namespace gameUtils {
 		* redirection method to Field::clear()
 		*/
 		inline void clear() {
-			field.get()->clear();
+			field->clear();
 		}
 		/*
 		* redirection method to Field::clearRow(y)
 		* @param y row's index
 		*/
 		inline void clearRow(static int y) {
-			field.get()->clearRow(y);
+			field->clearRow(y);
 		}
 		/*
 		* movement and rotation types
@@ -172,7 +172,7 @@ namespace gameUtils {
 		* redirection method to Field::set()
 		*/
 		inline void set(const int x, const int y, const int v) {
-			field.get()->set(x, y, v);
+			field->set(x, y, v);
 		}
 		/*
 		* set the brick of this field and initialize it's attributes
@@ -220,7 +220,7 @@ namespace gameUtils {
 		* and further support for brick-change events
 		*/
 		inline void setOnChanged(void (*_onChanged)(int, int, int)) {
-			field.get()->setOnChanged(_onChanged);
+			field->setOnChanged(_onChanged);
 			onChanged = _onChanged;
 		}
 

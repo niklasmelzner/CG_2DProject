@@ -36,11 +36,11 @@ namespace gameUtils {
 			if (getBrickState(x1, y1)) {//checking the template-value of this brick
 				return brickType;//return the brick's state
 			}
-			else if (debug) return -3 - field.get()->get(x, y);//only used for debugging-types (see gameData::debug and gameData::getTypeColor)
+			else if (debug) return -3 - field->get(x, y);//only used for debugging-types (see gameData::debug and gameData::getTypeColor)
 		}
 
 		//return the underlying field's state
-		return field.get()->get(x, y);
+		return field->get(x, y);
 	}
 
 	void BrickDroppingField::updateRegion(const int x, const int y, const int w, const int h) {
@@ -51,7 +51,7 @@ namespace gameUtils {
 				int x2 = x + x1;
 				int y2 = y + y1;
 				//call the onChanged-function if the coordinates are contained in this field
-				if (field.get()->contains(x2, y2)) {
+				if (field->contains(x2, y2)) {
 					onChanged(x2, y2, get(x2, y2));
 				}
 			}
@@ -198,7 +198,7 @@ namespace gameUtils {
 					int y1 = y + brickY;
 
 					// check if the field doesn't contain the given field or if the field is already set
-					if (!field.get()->contains(x1, y1) || field.get()->get(x1, y1) != -1) {
+					if (!field->contains(x1, y1) || field->get(x1, y1) != -1) {
 						return true;
 					}
 				}
@@ -229,8 +229,8 @@ namespace gameUtils {
 				int brickState = getFieldBrickState(x, y);
 
 				if (brickState) {//if brick has a value at location [x,y]
-					if (field.get()->contains(x + brickX, y + brickY)) {//if the field contains this location
-						field.get()->set(x + brickX, y + brickY, brickType);//the field is set to the brick's type
+					if (field->contains(x + brickX, y + brickY)) {//if the field contains this location
+						field->set(x + brickX, y + brickY, brickType);//the field is set to the brick's type
 					}
 					else {//the location isn't contained in the field
 						inField = false;
