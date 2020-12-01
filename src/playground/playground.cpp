@@ -41,6 +41,9 @@ void staticInitVertexBuffer() {
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
+	glGenBuffers(1, &vertexbuffer); 
+	glGenBuffers(1, &colorbuffer);
+
 	//getting the background color for every single field
 	float r = fieldBackgroundColor.get()[0];
 	float g = fieldBackgroundColor.get()[1];
@@ -765,21 +768,14 @@ bool initializeVertexbuffer()
 	// glGenVertexArrays(1, &VertexArrayID);
 	// glBindVertexArray(VertexArrayID);
 
-	// avoiding memory leak caused by vertexbuffer
-	glDeleteBuffers(1, &vertexbuffer);
 	// </modified>
 
-	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
 	// <modified>
-	//second buffer for color-values
-	//avoiding the memory leak caused by colorbuffer
-	glDeleteBuffers(1, &colorbuffer);
-	glGenBuffers(1, &colorbuffer);
-
+	
 	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
